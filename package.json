@@ -1,0 +1,15 @@
+{
+  "name": "cicd-lab-typescript",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A GitHub-only CI/CD lab for data science students using TypeScript and GitHub Actions",
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "test": "node --test dist/tests/*.test.js",
+    "report": "node dist/scripts/generate-report.js"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
+  }
+}

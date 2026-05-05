@@ -1,0 +1,22 @@
+name: ci-cd-lab-starter
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  starter-workflow:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Starter message
+        run: |
+          echo "This is the starter workflow. Edit this file to build a real CI/CD pipeline."
+          echo ""
+          echo "Goal: two jobs."
+          echo "  ci  -- set up Node, install, build, test, upload dist/ as artifact 'build'"
+          echo "  cd  -- needs: ci, download 'build' artifact, run report, upload report artifact"

@@ -1,0 +1,30 @@
+[
+  {
+    "date": "2026-01-01",
+    "region": "North",
+    "product": "Widget",
+    "units": 10,
+    "unitPrice": 12.5
+  },
+  {
+    "date": "2026-01-02",
+    "region": "South",
+    "product": "Gadget",
+    "units": 8,
+    "unitPrice": 15
+  },
+  {
+    "date": "2026-01-03",
+    "region": "West",
+    "product": "Widget",
+    "units": 5,
+    "unitPrice": 12.5
+  },
+  {
+    "date": "2026-01-04",
+    "region": "East",
+    "product": "Gizmo",
+    "units": 6,
+    "unitPrice": 20
+  }
+]
