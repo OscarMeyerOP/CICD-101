@@ -236,7 +236,7 @@ jobs:
       - name: Generate report
         run: npm run report
         env:
-          STUDENT_NAME: ${{ inputs.student_name }} || "Alice"
+          STUDENT_NAME: ${{ env.STUDENT_NAME }}
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
