@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+env:
+  STUDENT_NAME: "Bob"
 
 jobs:
   ci:
@@ -13,21 +15,14 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Starter message
-        run: |
-          echo "This is the starter workflow. Edit this file to build a real CI/CD pipeline."
-          echo ""
-          echo "Goal: two jobs."
-          echo "  ci  -- set up Node, install, build, test, upload dist/ as artifact 'build'"
-          echo "  cd  -- needs: ci, download 'build' artifact, run report, upload report artifact"
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
+          cache: npm
 
       - name: Install dependencies
-        run: npm i
+        run: npm install
 
       - name: Build TypeScript
         run: npm run build
@@ -44,6 +39,15 @@ jobs:
   cd:
     runs-on: ubuntu-latest
     needs: ci
+    if: github.ref == 'refs/heads/main'
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Check out repository
@@ -52,7 +56,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Download build artifact
         uses: actions/download-artifact@v4
@@ -62,9 +66,14 @@ jobs:
 
       - name: Generate report
         run: npm run report
+        env:
+          STUDENT_NAME: ${{ inputs.student_name }} || "Alice"
 
-      - name: Upload report artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: data-report
-          path: artifacts/data-report.md
+          path: artifacts/
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
