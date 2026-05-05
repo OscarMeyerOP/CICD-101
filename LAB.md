@@ -165,6 +165,7 @@ By the end of the lab, your fork should contain:
 name: ci-cd-lab
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
