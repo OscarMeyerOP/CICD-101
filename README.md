@@ -1,6 +1,6 @@
 # CI/CD Basics for Data Science
 
-A 2-hour GitHub-only lab that introduces CI/CD with a small TypeScript data-quality project and GitHub Actions.
+A 2-hour lab that introduces CI/CD with a small TypeScript data-quality project and GitHub Actions.
 
 ## What Students Will Learn
 - what CI, continuous delivery, and continuous deployment mean
@@ -26,10 +26,11 @@ They work entirely in GitHub and only modify the workflow YAML file.
 - `RESEARCH_NOTES.md`: structured research notes and hypothesis updates
 
 ## Intended Flow
-Students fork the repository, enable Actions on the fork if needed, and edit `.github/workflows/lab.yml` in the GitHub web UI until it becomes a useful CI pipeline.
+Students fork the repository, enable Actions on the fork if needed, and edit `.github/workflows/lab.yml`. 
 
 ## Suggested Duration
-- 20 min: concepts and repo tour
-- 70 min: workflow editing in GitHub
-- 20 min: debrief and extensions
-- 10 min: buffer
+- 20 min: CI/CD Intro
+- 45 min: CI Lab
+- 10 min: Discussion
+- 30 min: CD Lab
+- 15 min: End discussion

@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  starter-workflow:
+  ci:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,3 +20,52 @@ jobs:
           echo "Goal: two jobs."
           echo "  ci  -- set up Node, install, build, test, upload dist/ as artifact 'build'"
           echo "  cd  -- needs: ci, download 'build' artifact, run report, upload report artifact"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build TypeScript
+        run: npm run build
+
+      - name: Run tests
+        run: npm test
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: dist/
+
+  cd:
+    runs-on: ubuntu-latest
+    needs: ci
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build
+          path: dist/
+
+      - name: Generate report
+        run: npm run report
+
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: data-report
+          path: artifacts/data-report.md
