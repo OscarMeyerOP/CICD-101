@@ -32,25 +32,9 @@ Your task is to create the CI/CD pipeline by editing only the workflow YAML.
    - go to `Settings` > `Pages`
    - under **Build and deployment**, set **Source** to `GitHub Actions`
    - save
-5. Open `LAB.md` in one tab and `.github/workflows/lab.yml` in another.
 
-## Part 2: Understand the Starter Workflow
-Open `.github/workflows/lab.yml`.
-
-Find these sections:
-- workflow name
-- trigger section
-- jobs section
-- runner
-- steps
-
-Starter state:
-- the workflow is valid
-- it checks out the repository
-- it does not yet build, test, or publish anything useful
-
-## Part 3: Turn the Starter into a Real CI Workflow
-Edit `.github/workflows/lab.yml` in GitHub.
+## Part 2: Create your first Workflow
+Open `Actions` > `New Workflow` > `set up a workflow yourself`
 
 Your goal is to build a `ci` job that does all of the following:
 1. Triggered on `push`, `pull_request`, and manual `workflow_dispatch`
@@ -62,24 +46,14 @@ Your goal is to build a `ci` job that does all of the following:
 7. Uploads the compiled `dist/` folder as a build artifact named `build`
 
 That last step is important — the `dist/` artifact is what the next job will use instead of compiling again.
-
-Hints:
-- use `actions/checkout`
-- use `actions/setup-node` with Node `24` and `cache: npm`
-- run `npm install`, then `npm run build`, then `npm test`
-- use `actions/upload-artifact` to upload `dist/` with the name `build`
-
-For `workflow_dispatch` with an input:
-
-```yaml
-on:
-  workflow_dispatch:
-    inputs:
-      student_name:
-        description: Your name
-        required: true
-        default: Student
-```
+> \[!TIP]
+> Use the documentation on the right side and ask AI to help you!
+>
+> Actions hints:
+> - use `actions/checkout`
+> - use `actions/setup-node` with Node `24` and `cache: npm`
+> - run `npm install`, then `npm run build`, then `npm test`
+> - use `actions/upload-artifact` to upload `dist/` with the name `build`
 
 Commit your change directly to `main` on your fork.
 
@@ -160,90 +134,4 @@ By the end of the lab, your fork should contain:
 - a live GitHub Pages report at your fork's Pages URL
 
 ## Suggested Final Workflow Shape
-
-```yaml
-name: ci-cd-lab
-
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
-  pull_request:
-  workflow_dispatch:
-    inputs:
-      student_name:
-        description: Your name
-        required: true
-        default: Student
-
-jobs:
-  ci:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build TypeScript
-        run: npm run build
-
-      - name: Run tests
-        run: npm test
-
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: build
-          path: dist/
-
-  cd:
-    runs-on: ubuntu-latest
-    needs: ci
-    if: github.ref == 'refs/heads/main'
-
-    permissions:
-      pages: write
-      id-token: write
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
-
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: build
-          path: dist/
-
-      - name: Generate report
-        run: npm run report
-        env:
-          STUDENT_NAME: ${{ env.STUDENT_NAME }}
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: artifacts/
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-```
+TODO a branch with the full pipeline
